@@ -115,4 +115,4 @@ npm run dev
 
 ---
 
-**Built with ❤️ for the developer community**
+**Built with ❤️**
