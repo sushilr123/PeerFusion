@@ -92,6 +92,17 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
+  const refreshUser = async () => {
+    try {
+      const userData = await authService.getCurrentUser();
+      setUser(userData);
+      return userData;
+    } catch (error) {
+      console.error("[AUTH] Refresh user error:", error);
+      throw error;
+    }
+  };
+
   const value = {
     user,
     loading,
@@ -99,6 +110,7 @@ export const AuthProvider = ({ children }) => {
     signup,
     logout,
     updateUser,
+    refreshUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
