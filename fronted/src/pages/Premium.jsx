@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { paymentService } from "../services/api";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import {
   Crown,
   Check,
@@ -123,20 +123,22 @@ const Premium = () => {
           try {
             console.log("Payment successful:", response);
             setPaymentSuccess(true);
-            
+
             // Refresh user data to get updated premium status
             setTimeout(() => {
               refreshUser();
               verifyPremiumStatus();
             }, 2000);
-            
+
             // Clear success message after 5 seconds
             setTimeout(() => {
               setPaymentSuccess(false);
             }, 5000);
           } catch (error) {
             console.error("Error after payment:", error);
-            setPaymentError("Payment completed but verification failed. Please contact support.");
+            setPaymentError(
+              "Payment completed but verification failed. Please contact support."
+            );
           }
         },
         modal: {
@@ -167,7 +169,7 @@ const Premium = () => {
           </div>
           <h1>You're Premium!</h1>
           <p>Enjoy all the exclusive features</p>
-          
+
           <div className="premium-benefits">
             <h3>Active Premium Features:</h3>
             <div className="benefits-grid">
@@ -203,7 +205,9 @@ const Premium = () => {
               <Crown size={20} />
               <div>
                 <span className="info-label">Membership Type</span>
-                <span className="info-value">{user?.membershipType?.toUpperCase() || 'PREMIUM'}</span>
+                <span className="info-value">
+                  {user?.membershipType?.toUpperCase() || "PREMIUM"}
+                </span>
               </div>
             </div>
           </div>
@@ -261,10 +265,7 @@ const Premium = () => {
             )}
 
             <div className="plan-header">
-              <div
-                className="plan-icon"
-                style={{ background: plan.gradient }}
-              >
+              <div className="plan-icon" style={{ background: plan.gradient }}>
                 <Crown size={24} color="white" />
               </div>
               <h3 className="plan-name">{plan.name}</h3>
@@ -284,7 +285,9 @@ const Premium = () => {
             </div>
 
             <button
-              className={`plan-button ${selectedPlan === key ? "selected" : ""}`}
+              className={`plan-button ${
+                selectedPlan === key ? "selected" : ""
+              }`}
               onClick={(e) => {
                 e.stopPropagation();
                 handlePayment(key);
@@ -313,7 +316,9 @@ const Premium = () => {
           <div className="benefit-card">
             <Heart className="benefit-icon premium-gradient" />
             <h4>Unlimited Connections</h4>
-            <p>Swipe and connect with unlimited developers without restrictions</p>
+            <p>
+              Swipe and connect with unlimited developers without restrictions
+            </p>
           </div>
           <div className="benefit-card">
             <Users className="benefit-icon premium-gradient" />
