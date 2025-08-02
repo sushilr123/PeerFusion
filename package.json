@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "seed": "node scripts/seedDatabase.js",
+    "seed:users": "node scripts/seedDummyUsers.js",
+    "seed:interactions": "node scripts/seedInteractions.js",
+    "clean": "node scripts/cleanDatabase.js",
+    "verify": "node scripts/verifyData.js"
   },
   "keywords": [
     "nodejs",
