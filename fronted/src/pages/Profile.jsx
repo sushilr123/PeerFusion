@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { profileService } from "../services/api";
 import { useAuth } from "../hooks/useAuth";
-import { 
-  User, 
-  Mail, 
-  Calendar, 
-  MapPin, 
-  Edit3, 
-  Save, 
-  X, 
+import {
+  User,
+  Mail,
+  Calendar,
+  MapPin,
+  Edit3,
+  Save,
+  X,
   Camera,
   Users,
-  Briefcase
+  Briefcase,
 } from "lucide-react";
 import "./Profile.css";
 
@@ -30,7 +30,7 @@ const Profile = () => {
     gender: "",
     about: "",
     skills: "",
-    photoUrl: ""
+    photoUrl: "",
   });
 
   useEffect(() => {
@@ -49,8 +49,10 @@ const Profile = () => {
         age: profile.age || "",
         gender: profile.gender || "",
         about: profile.about || "",
-        skills: Array.isArray(profile.skills) ? profile.skills.join(", ") : profile.skills || "",
-        photoUrl: profile.photoUrl || ""
+        skills: Array.isArray(profile.skills)
+          ? profile.skills.join(", ")
+          : profile.skills || "",
+        photoUrl: profile.photoUrl || "",
       });
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -62,9 +64,9 @@ const Profile = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -76,11 +78,14 @@ const Profile = () => {
       // Prepare data for API (convert skills back to array if needed)
       const updateData = {
         ...formData,
-        skills: formData.skills.split(",").map(skill => skill.trim()).filter(skill => skill)
+        skills: formData.skills
+          .split(",")
+          .map((skill) => skill.trim())
+          .filter((skill) => skill),
       };
 
       // Remove empty fields
-      Object.keys(updateData).forEach(key => {
+      Object.keys(updateData).forEach((key) => {
         if (updateData[key] === "" || updateData[key] === null) {
           delete updateData[key];
         }
@@ -107,8 +112,10 @@ const Profile = () => {
       age: profileData.age || "",
       gender: profileData.gender || "",
       about: profileData.about || "",
-      skills: Array.isArray(profileData.skills) ? profileData.skills.join(", ") : profileData.skills || "",
-      photoUrl: profileData.photoUrl || ""
+      skills: Array.isArray(profileData.skills)
+        ? profileData.skills.join(", ")
+        : profileData.skills || "",
+      photoUrl: profileData.photoUrl || "",
     });
     setIsEditing(false);
     setError("");
@@ -142,7 +149,11 @@ const Profile = () => {
           <div className="profile-avatar-section">
             <div className="profile-avatar">
               <img
-                src={isEditing ? formData.photoUrl || "https://via.placeholder.com/120" : profileData.photoUrl || "https://via.placeholder.com/120"}
+                src={
+                  isEditing
+                    ? formData.photoUrl || "https://via.placeholder.com/120"
+                    : profileData.photoUrl || "https://via.placeholder.com/120"
+                }
                 alt={`${profileData.firstName} ${profileData.lastName}`}
                 onError={(e) => {
                   e.target.src = "https://via.placeholder.com/120";
@@ -154,7 +165,7 @@ const Profile = () => {
                 </div>
               )}
             </div>
-            
+
             {isEditing ? (
               <input
                 type="url"
@@ -212,10 +223,7 @@ const Profile = () => {
                     <Save size={16} />
                     {saving ? "Saving..." : "Save"}
                   </button>
-                  <button
-                    onClick={handleCancel}
-                    className="btn btn-outline"
-                  >
+                  <button onClick={handleCancel} className="btn btn-outline">
                     <X size={16} />
                     Cancel
                   </button>
@@ -225,11 +233,7 @@ const Profile = () => {
           </div>
         </div>
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
 
         {/* Profile Details */}
         <div className="profile-details">
@@ -311,7 +315,8 @@ const Profile = () => {
               />
             ) : (
               <p className="about-text">
-                {profileData.about || "No bio added yet. Click edit to add your bio."}
+                {profileData.about ||
+                  "No bio added yet. Click edit to add your bio."}
               </p>
             )}
           </div>
@@ -334,7 +339,10 @@ const Profile = () => {
               <div className="skills-display">
                 {profileData.skills && profileData.skills.length > 0 ? (
                   <div className="skills-tags">
-                    {(Array.isArray(profileData.skills) ? profileData.skills : [profileData.skills]).map((skill, index) => (
+                    {(Array.isArray(profileData.skills)
+                      ? profileData.skills
+                      : [profileData.skills]
+                    ).map((skill, index) => (
                       <span key={index} className="skill-tag">
                         <Briefcase size={14} />
                         {skill}
@@ -342,7 +350,9 @@ const Profile = () => {
                     ))}
                   </div>
                 ) : (
-                  <p className="no-skills">No skills added yet. Click edit to add your skills.</p>
+                  <p className="no-skills">
+                    No skills added yet. Click edit to add your skills.
+                  </p>
                 )}
               </div>
             )}
