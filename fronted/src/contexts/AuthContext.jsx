@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useRef } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { authService } from "../services/api";
 
 export const AuthContext = createContext();
@@ -6,32 +6,33 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const authCheckedRef = useRef(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     const checkAuth = async () => {
       // Prevent multiple authentication checks
-      if (authCheckedRef.current) {
+      if (authChecked) {
         return;
       }
-
-      authCheckedRef.current = true;
 
       try {
         console.log("[AUTH] Checking authentication...");
         const userData = await authService.getCurrentUser();
         if (isMounted) {
           console.log("[AUTH] User authenticated:", userData);
-          setUser(userData); // API now returns user data directly
-          setLoading(false);
+          setUser(userData);
         }
       } catch (error) {
         if (isMounted) {
           console.log("[AUTH] No authenticated user:", error.message);
           setUser(null);
+        }
+      } finally {
+        if (isMounted) {
           setLoading(false);
+          setAuthChecked(true);
         }
       }
     };
@@ -41,26 +42,34 @@ export const AuthProvider = ({ children }) => {
     return () => {
       isMounted = false;
     };
-  }, []); // Empty dependency array to run only once on mount
+  }, [authChecked]); // Only depend on authChecked
 
   const login = async (credentials) => {
     try {
+      setLoading(true);
       const userData = await authService.login(credentials);
       setUser(userData);
+      setAuthChecked(true);
+      setLoading(false);
       return { success: true, data: userData };
     } catch (error) {
       console.error("[AUTH] Login error:", error);
+      setLoading(false);
       throw error;
     }
   };
 
   const signup = async (userData) => {
     try {
+      setLoading(true);
       const newUser = await authService.signup(userData);
       setUser(newUser);
+      setAuthChecked(true);
+      setLoading(false);
       return { success: true, data: newUser };
     } catch (error) {
       console.error("[AUTH] Signup error:", error);
+      setLoading(false);
       throw error;
     }
   };
@@ -69,11 +78,13 @@ export const AuthProvider = ({ children }) => {
     try {
       await authService.logout();
       setUser(null);
-      authCheckedRef.current = false; // Reset auth check flag for next login
+      setAuthChecked(false); // Reset auth check flag for next login
+      setLoading(false);
     } catch (error) {
       console.error("Logout error:", error);
       setUser(null); // Force logout even if API call fails
-      authCheckedRef.current = false; // Reset auth check flag
+      setAuthChecked(false); // Reset auth check flag
+      setLoading(false);
     }
   };
 

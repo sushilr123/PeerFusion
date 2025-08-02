@@ -16,8 +16,16 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized access
-      window.location.href = "/login";
+      // Only redirect if not already on login/signup pages
+      const currentPath = window.location.pathname;
+      if (
+        currentPath !== "/login" &&
+        currentPath !== "/signup" &&
+        currentPath !== "/"
+      ) {
+        console.log("[API] Unauthorized access, redirecting to login");
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
   }
@@ -94,6 +102,11 @@ export const connectionService = {
 export const chatService = {
   getMessages: async (targetUserId) => {
     const response = await api.get(`/chat/${targetUserId}`);
+    return response.data;
+  },
+
+  sendMessage: async (targetUserId, text) => {
+    const response = await api.post(`/chat/${targetUserId}/message`, { text });
     return response.data;
   },
 };
