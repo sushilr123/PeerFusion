@@ -5,12 +5,15 @@ This guide explains how to use the dummy data scripts to populate your PeerFusio
 ## 🚀 Quick Start
 
 ### 1. Seed Complete Database
+
 ```bash
 npm run seed
 ```
+
 This will create all dummy users, connection requests, and chat messages in one go.
 
 ### 2. Individual Seeding (Optional)
+
 ```bash
 # Create only dummy users
 npm run seed:users
@@ -27,6 +30,7 @@ npm run clean
 The script creates **22 diverse user profiles** representing different tech roles:
 
 ### Tech Professionals (8 users)
+
 - **Alexandra Chen** - Full-stack Developer (Premium Gold)
 - **Marcus Johnson** - DevOps Engineer (Free)
 - **Priya Sharma** - AI/ML Engineer (Premium Silver)
@@ -37,6 +41,7 @@ The script creates **22 diverse user profiles** representing different tech role
 - **Sophia Martinez** - Blockchain Developer (Premium Gold)
 
 ### Creative & Specialized (6 users)
+
 - **Jordan Kim** - UI/UX Designer (Free)
 - **Sarah Mitchell** - Digital Marketing (Premium Silver)
 - **Alex Thompson** - Video Editor (Free)
@@ -45,12 +50,14 @@ The script creates **22 diverse user profiles** representing different tech role
 - **Carlos Hernandez** - Blockchain Developer (Free)
 
 ### Product & Gaming (4 users)
+
 - **Amanda Lee** - Senior Product Manager (Premium Silver)
 - **Kevin Garcia** - Product Owner (Free)
 - **Jessica Taylor** - Game Developer (Premium Silver)
 - **Ryan Anderson** - Indie Game Developer (Free)
 
 ### Junior & Freelance (4 users)
+
 - **Emma White** - Bootcamp Graduate (Free)
 - **Daniel Moore** - CS Graduate (Premium Silver)
 - **Natalie Clark** - Freelance Developer (Premium Gold)
@@ -64,32 +71,38 @@ The script creates **22 diverse user profiles** representing different tech role
 ## 🎯 Test Scenarios Available
 
 ### 1. User Authentication
+
 - Login with different user types (premium/free)
 - Test profile viewing and editing
 - Test password validation
 
 ### 2. Connection System
+
 - Send connection requests
 - Accept/reject requests
 - View pending/accepted connections
 - Test different connection states
 
 ### 3. Chat Functionality
+
 - Chat with connected users
 - View chat history
 - Test real-time messaging
 
 ### 4. Premium Features
+
 - Compare premium vs free user capabilities
 - Test premium-only features
 - Payment flow testing
 
 ### 5. Skill-based Matching
+
 - Filter users by skills
 - Browse diverse skill sets
 - Test recommendation algorithms
 
 ### 6. Profile Diversity
+
 - Different age groups (23-35)
 - Various skill combinations
 - Different experience levels
@@ -98,6 +111,7 @@ The script creates **22 diverse user profiles** representing different tech role
 ## 📊 Generated Data Statistics
 
 After seeding, you'll have:
+
 - **22 Users** with diverse profiles
 - **~50 Connection Requests** in various states
 - **~30-50 Chat Messages** between connected users
@@ -107,12 +121,15 @@ After seeding, you'll have:
 ## 🛠️ Database Management
 
 ### Clean Database
+
 ```bash
 npm run clean
 ```
+
 ⚠️ **Warning**: This deletes ALL data from your database!
 
 ### Re-seed After Changes
+
 ```bash
 npm run clean && npm run seed
 ```
@@ -122,15 +139,19 @@ npm run clean && npm run seed
 ### Common Issues
 
 1. **Connection Error**
+
    ```
    Error: MongoDB connection failed
    ```
+
    **Solution**: Ensure MongoDB is running and check your DATABASE_URL in `.env`
 
 2. **Duplicate Key Error**
+
    ```
    Error: E11000 duplicate key error
    ```
+
    **Solution**: Run `npm run clean` first, then `npm run seed`
 
 3. **No Interactions Created**
@@ -142,6 +163,7 @@ npm run clean && npm run seed
 ### Environment Setup
 
 Make sure your `.env` file has:
+
 ```env
 DATABASE_URL=mongodb://localhost:27017/peerfusion
 JWT_SECRET=your-secret-key
@@ -150,6 +172,7 @@ JWT_SECRET=your-secret-key
 ## 📝 Customizing Dummy Data
 
 ### Adding More Users
+
 Edit `scripts/seedDummyUsers.js` and add to the `dummyUsers` array:
 
 ```javascript
@@ -167,6 +190,7 @@ Edit `scripts/seedDummyUsers.js` and add to the `dummyUsers` array:
 ```
 
 ### Modifying Chat Messages
+
 Edit `scripts/seedInteractions.js` and update the `sampleMessages` array with your preferred conversation starters.
 
 ## 🔄 Development Workflow

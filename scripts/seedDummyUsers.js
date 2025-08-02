@@ -6,7 +6,9 @@ require("dotenv").config();
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.DATABASE_URL || "mongodb://localhost:27017/peerfusion");
+    await mongoose.connect(
+      process.env.DATABASE_URL || "mongodb://localhost:27017/peerfusion"
+    );
     console.log("✅ Connected to MongoDB");
   } catch (error) {
     console.error("❌ MongoDB connection failed:", error.message);
@@ -24,10 +26,19 @@ const dummyUsers = [
     age: 28,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/1.jpg",
-    about: "Full-stack developer with 5+ years of experience in React, Node.js, and cloud technologies. Passionate about building scalable web applications and mentoring junior developers.",
-    skills: ["JavaScript", "React", "Node.js", "MongoDB", "AWS", "Docker", "GraphQL"],
+    about:
+      "Full-stack developer with 5+ years of experience in React, Node.js, and cloud technologies. Passionate about building scalable web applications and mentoring junior developers.",
+    skills: [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "MongoDB",
+      "AWS",
+      "Docker",
+      "GraphQL",
+    ],
     isPremium: true,
-    membershipType: "Gold"
+    membershipType: "Gold",
   },
   {
     firstName: "Marcus",
@@ -36,9 +47,18 @@ const dummyUsers = [
     age: 32,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/1.jpg",
-    about: "Senior DevOps engineer specializing in CI/CD pipelines and infrastructure automation. Love working with Kubernetes and helping teams deploy faster.",
-    skills: ["Kubernetes", "Docker", "Jenkins", "Terraform", "Python", "Linux", "AWS"],
-    isPremium: false
+    about:
+      "Senior DevOps engineer specializing in CI/CD pipelines and infrastructure automation. Love working with Kubernetes and helping teams deploy faster.",
+    skills: [
+      "Kubernetes",
+      "Docker",
+      "Jenkins",
+      "Terraform",
+      "Python",
+      "Linux",
+      "AWS",
+    ],
+    isPremium: false,
   },
   {
     firstName: "Priya",
@@ -47,10 +67,19 @@ const dummyUsers = [
     age: 26,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/2.jpg",
-    about: "AI/ML engineer working on computer vision and natural language processing. PhD in Computer Science with focus on deep learning applications.",
-    skills: ["Python", "TensorFlow", "PyTorch", "Computer Vision", "NLP", "Deep Learning", "Jupyter"],
+    about:
+      "AI/ML engineer working on computer vision and natural language processing. PhD in Computer Science with focus on deep learning applications.",
+    skills: [
+      "Python",
+      "TensorFlow",
+      "PyTorch",
+      "Computer Vision",
+      "NLP",
+      "Deep Learning",
+      "Jupyter",
+    ],
     isPremium: true,
-    membershipType: "Silver"
+    membershipType: "Silver",
   },
   {
     firstName: "David",
@@ -59,9 +88,18 @@ const dummyUsers = [
     age: 29,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/2.jpg",
-    about: "Mobile app developer with expertise in iOS and Android. Published 12+ apps on app stores with millions of downloads.",
-    skills: ["Swift", "Kotlin", "React Native", "Flutter", "iOS", "Android", "Firebase"],
-    isPremium: false
+    about:
+      "Mobile app developer with expertise in iOS and Android. Published 12+ apps on app stores with millions of downloads.",
+    skills: [
+      "Swift",
+      "Kotlin",
+      "React Native",
+      "Flutter",
+      "iOS",
+      "Android",
+      "Firebase",
+    ],
+    isPremium: false,
   },
   {
     firstName: "Emily",
@@ -70,10 +108,19 @@ const dummyUsers = [
     age: 31,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/3.jpg",
-    about: "Cloud architect designing scalable solutions for enterprise clients. Certified in AWS, Azure, and GCP with 8+ years of experience.",
-    skills: ["AWS", "Azure", "GCP", "Microservices", "Serverless", "Lambda", "CloudFormation"],
+    about:
+      "Cloud architect designing scalable solutions for enterprise clients. Certified in AWS, Azure, and GCP with 8+ years of experience.",
+    skills: [
+      "AWS",
+      "Azure",
+      "GCP",
+      "Microservices",
+      "Serverless",
+      "Lambda",
+      "CloudFormation",
+    ],
     isPremium: true,
-    membershipType: "Gold"
+    membershipType: "Gold",
   },
 
   // Creative Professionals
@@ -84,9 +131,18 @@ const dummyUsers = [
     age: 27,
     gender: "other",
     photoUrl: "https://randomuser.me/api/portraits/men/3.jpg",
-    about: "UI/UX designer with a passion for creating intuitive and beautiful user experiences. Specialized in design systems and accessibility.",
-    skills: ["Figma", "Sketch", "Adobe XD", "Prototyping", "User Research", "Design Systems", "Accessibility"],
-    isPremium: false
+    about:
+      "UI/UX designer with a passion for creating intuitive and beautiful user experiences. Specialized in design systems and accessibility.",
+    skills: [
+      "Figma",
+      "Sketch",
+      "Adobe XD",
+      "Prototyping",
+      "User Research",
+      "Design Systems",
+      "Accessibility",
+    ],
+    isPremium: false,
   },
   {
     firstName: "Sarah",
@@ -95,10 +151,18 @@ const dummyUsers = [
     age: 25,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/4.jpg",
-    about: "Digital marketing specialist and content creator. Expert in social media strategy, SEO, and data-driven marketing campaigns.",
-    skills: ["Digital Marketing", "SEO", "Social Media", "Content Creation", "Analytics", "Adobe Creative Suite"],
+    about:
+      "Digital marketing specialist and content creator. Expert in social media strategy, SEO, and data-driven marketing campaigns.",
+    skills: [
+      "Digital Marketing",
+      "SEO",
+      "Social Media",
+      "Content Creation",
+      "Analytics",
+      "Adobe Creative Suite",
+    ],
     isPremium: true,
-    membershipType: "Silver"
+    membershipType: "Silver",
   },
   {
     firstName: "Alex",
@@ -107,9 +171,17 @@ const dummyUsers = [
     age: 30,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/4.jpg",
-    about: "Video editor and motion graphics artist. Working on documentaries, commercials, and digital content for major brands.",
-    skills: ["After Effects", "Premiere Pro", "Cinema 4D", "Motion Graphics", "Video Editing", "Color Grading"],
-    isPremium: false
+    about:
+      "Video editor and motion graphics artist. Working on documentaries, commercials, and digital content for major brands.",
+    skills: [
+      "After Effects",
+      "Premiere Pro",
+      "Cinema 4D",
+      "Motion Graphics",
+      "Video Editing",
+      "Color Grading",
+    ],
+    isPremium: false,
   },
 
   // Data & Analytics
@@ -120,10 +192,19 @@ const dummyUsers = [
     age: 33,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/5.jpg",
-    about: "Data scientist with expertise in machine learning and statistical analysis. PhD in Statistics, working on predictive models for finance.",
-    skills: ["Python", "R", "SQL", "Machine Learning", "Statistics", "Tableau", "Power BI"],
+    about:
+      "Data scientist with expertise in machine learning and statistical analysis. PhD in Statistics, working on predictive models for finance.",
+    skills: [
+      "Python",
+      "R",
+      "SQL",
+      "Machine Learning",
+      "Statistics",
+      "Tableau",
+      "Power BI",
+    ],
     isPremium: true,
-    membershipType: "Gold"
+    membershipType: "Gold",
   },
   {
     firstName: "Michael",
@@ -132,9 +213,18 @@ const dummyUsers = [
     age: 28,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/5.jpg",
-    about: "Business intelligence analyst helping companies make data-driven decisions. Expert in dashboard creation and data visualization.",
-    skills: ["SQL", "Tableau", "Power BI", "Excel", "Python", "Data Warehousing", "ETL"],
-    isPremium: false
+    about:
+      "Business intelligence analyst helping companies make data-driven decisions. Expert in dashboard creation and data visualization.",
+    skills: [
+      "SQL",
+      "Tableau",
+      "Power BI",
+      "Excel",
+      "Python",
+      "Data Warehousing",
+      "ETL",
+    ],
+    isPremium: false,
   },
 
   // Cybersecurity
@@ -145,10 +235,18 @@ const dummyUsers = [
     age: 35,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/6.jpg",
-    about: "Cybersecurity expert with CISSP certification. Specialized in penetration testing and security architecture for enterprise systems.",
-    skills: ["Penetration Testing", "Security Architecture", "CISSP", "Ethical Hacking", "Risk Assessment", "Compliance"],
+    about:
+      "Cybersecurity expert with CISSP certification. Specialized in penetration testing and security architecture for enterprise systems.",
+    skills: [
+      "Penetration Testing",
+      "Security Architecture",
+      "CISSP",
+      "Ethical Hacking",
+      "Risk Assessment",
+      "Compliance",
+    ],
     isPremium: true,
-    membershipType: "Gold"
+    membershipType: "Gold",
   },
   {
     firstName: "James",
@@ -157,9 +255,17 @@ const dummyUsers = [
     age: 29,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/6.jpg",
-    about: "Information security analyst with focus on incident response and threat hunting. SANS certified with 6+ years experience.",
-    skills: ["Incident Response", "Threat Hunting", "SIEM", "Forensics", "Malware Analysis", "Network Security"],
-    isPremium: false
+    about:
+      "Information security analyst with focus on incident response and threat hunting. SANS certified with 6+ years experience.",
+    skills: [
+      "Incident Response",
+      "Threat Hunting",
+      "SIEM",
+      "Forensics",
+      "Malware Analysis",
+      "Network Security",
+    ],
+    isPremium: false,
   },
 
   // Product Management
@@ -170,10 +276,19 @@ const dummyUsers = [
     age: 32,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/7.jpg",
-    about: "Senior product manager with experience in B2B SaaS products. Led multiple successful product launches with focus on user-centric design.",
-    skills: ["Product Strategy", "User Research", "Agile", "Roadmapping", "A/B Testing", "Analytics", "Stakeholder Management"],
+    about:
+      "Senior product manager with experience in B2B SaaS products. Led multiple successful product launches with focus on user-centric design.",
+    skills: [
+      "Product Strategy",
+      "User Research",
+      "Agile",
+      "Roadmapping",
+      "A/B Testing",
+      "Analytics",
+      "Stakeholder Management",
+    ],
     isPremium: true,
-    membershipType: "Silver"
+    membershipType: "Silver",
   },
   {
     firstName: "Kevin",
@@ -182,9 +297,17 @@ const dummyUsers = [
     age: 27,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/7.jpg",
-    about: "Product owner at a fast-growing startup. Passionate about building products that solve real user problems and drive business growth.",
-    skills: ["Product Management", "Scrum", "User Stories", "Market Research", "Competitive Analysis", "MVP Development"],
-    isPremium: false
+    about:
+      "Product owner at a fast-growing startup. Passionate about building products that solve real user problems and drive business growth.",
+    skills: [
+      "Product Management",
+      "Scrum",
+      "User Stories",
+      "Market Research",
+      "Competitive Analysis",
+      "MVP Development",
+    ],
+    isPremium: false,
   },
 
   // Blockchain & Web3
@@ -195,10 +318,19 @@ const dummyUsers = [
     age: 26,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/8.jpg",
-    about: "Blockchain developer working on DeFi protocols and smart contracts. Expertise in Solidity and Web3 technologies.",
-    skills: ["Solidity", "Web3", "Ethereum", "Smart Contracts", "DeFi", "Hardhat", "React"],
+    about:
+      "Blockchain developer working on DeFi protocols and smart contracts. Expertise in Solidity and Web3 technologies.",
+    skills: [
+      "Solidity",
+      "Web3",
+      "Ethereum",
+      "Smart Contracts",
+      "DeFi",
+      "Hardhat",
+      "React",
+    ],
     isPremium: true,
-    membershipType: "Gold"
+    membershipType: "Gold",
   },
   {
     firstName: "Carlos",
@@ -207,9 +339,18 @@ const dummyUsers = [
     age: 30,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/8.jpg",
-    about: "Full-stack blockchain developer with experience in multiple blockchain networks. Building the future of decentralized applications.",
-    skills: ["Blockchain", "Solidity", "Web3.js", "NFTs", "Polygon", "IPFS", "Metamask"],
-    isPremium: false
+    about:
+      "Full-stack blockchain developer with experience in multiple blockchain networks. Building the future of decentralized applications.",
+    skills: [
+      "Blockchain",
+      "Solidity",
+      "Web3.js",
+      "NFTs",
+      "Polygon",
+      "IPFS",
+      "Metamask",
+    ],
+    isPremium: false,
   },
 
   // Game Development
@@ -220,10 +361,19 @@ const dummyUsers = [
     age: 28,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/9.jpg",
-    about: "Game developer specialized in Unity and Unreal Engine. Published several indie games and working on VR experiences.",
-    skills: ["Unity", "Unreal Engine", "C#", "Game Design", "VR Development", "3D Modeling", "Animation"],
+    about:
+      "Game developer specialized in Unity and Unreal Engine. Published several indie games and working on VR experiences.",
+    skills: [
+      "Unity",
+      "Unreal Engine",
+      "C#",
+      "Game Design",
+      "VR Development",
+      "3D Modeling",
+      "Animation",
+    ],
     isPremium: true,
-    membershipType: "Silver"
+    membershipType: "Silver",
   },
   {
     firstName: "Ryan",
@@ -232,9 +382,17 @@ const dummyUsers = [
     age: 31,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/9.jpg",
-    about: "Indie game developer and pixel artist. Love creating retro-style games with modern gameplay mechanics.",
-    skills: ["Game Development", "Pixel Art", "Godot", "Level Design", "Sound Design", "Steam Publishing"],
-    isPremium: false
+    about:
+      "Indie game developer and pixel artist. Love creating retro-style games with modern gameplay mechanics.",
+    skills: [
+      "Game Development",
+      "Pixel Art",
+      "Godot",
+      "Level Design",
+      "Sound Design",
+      "Steam Publishing",
+    ],
+    isPremium: false,
   },
 
   // Junior Developers
@@ -245,9 +403,10 @@ const dummyUsers = [
     age: 24,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/10.jpg",
-    about: "Recent coding bootcamp graduate looking to start my career in web development. Eager to learn and contribute to exciting projects.",
+    about:
+      "Recent coding bootcamp graduate looking to start my career in web development. Eager to learn and contribute to exciting projects.",
     skills: ["HTML", "CSS", "JavaScript", "React", "Git", "Node.js"],
-    isPremium: false
+    isPremium: false,
   },
   {
     firstName: "Daniel",
@@ -256,10 +415,11 @@ const dummyUsers = [
     age: 23,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/10.jpg",
-    about: "Computer Science graduate with internship experience at tech startups. Passionate about learning new technologies and solving complex problems.",
+    about:
+      "Computer Science graduate with internship experience at tech startups. Passionate about learning new technologies and solving complex problems.",
     skills: ["Java", "Python", "SQL", "Spring Boot", "React", "Git"],
     isPremium: true,
-    membershipType: "Silver"
+    membershipType: "Silver",
   },
 
   // Freelancers
@@ -270,10 +430,19 @@ const dummyUsers = [
     age: 29,
     gender: "female",
     photoUrl: "https://randomuser.me/api/portraits/women/11.jpg",
-    about: "Freelance full-stack developer working with clients worldwide. Specialized in e-commerce solutions and custom web applications.",
-    skills: ["Full-Stack Development", "E-commerce", "WordPress", "Shopify", "PHP", "MySQL", "Client Management"],
+    about:
+      "Freelance full-stack developer working with clients worldwide. Specialized in e-commerce solutions and custom web applications.",
+    skills: [
+      "Full-Stack Development",
+      "E-commerce",
+      "WordPress",
+      "Shopify",
+      "PHP",
+      "MySQL",
+      "Client Management",
+    ],
     isPremium: true,
-    membershipType: "Gold"
+    membershipType: "Gold",
   },
   {
     firstName: "Benjamin",
@@ -282,10 +451,17 @@ const dummyUsers = [
     age: 34,
     gender: "male",
     photoUrl: "https://randomuser.me/api/portraits/men/11.jpg",
-    about: "Technology consultant helping businesses digital transformation. 10+ years experience in enterprise architecture and system integration.",
-    skills: ["Enterprise Architecture", "System Integration", "Consulting", "Project Management", "Digital Transformation"],
-    isPremium: false
-  }
+    about:
+      "Technology consultant helping businesses digital transformation. 10+ years experience in enterprise architecture and system integration.",
+    skills: [
+      "Enterprise Architecture",
+      "System Integration",
+      "Consulting",
+      "Project Management",
+      "Digital Transformation",
+    ],
+    isPremium: false,
+  },
 ];
 
 // Hash password function
@@ -306,7 +482,7 @@ const seedUsers = async () => {
     const usersToCreate = await Promise.all(
       dummyUsers.map(async (user) => ({
         ...user,
-        password: await hashPassword("TechUser123!") // Same password for all dummy users
+        password: await hashPassword("TechUser123!"), // Same password for all dummy users
       }))
     );
 
@@ -317,16 +493,26 @@ const seedUsers = async () => {
     // Display summary
     console.log("\n📊 User Summary:");
     console.log(`👥 Total Users: ${createdUsers.length}`);
-    console.log(`👨 Male: ${createdUsers.filter(u => u.gender === 'male').length}`);
-    console.log(`👩 Female: ${createdUsers.filter(u => u.gender === 'female').length}`);
-    console.log(`🏳️‍🌈 Other: ${createdUsers.filter(u => u.gender === 'other').length}`);
-    console.log(`💎 Premium Users: ${createdUsers.filter(u => u.isPremium).length}`);
-    console.log(`🆓 Free Users: ${createdUsers.filter(u => !u.isPremium).length}`);
+    console.log(
+      `👨 Male: ${createdUsers.filter((u) => u.gender === "male").length}`
+    );
+    console.log(
+      `👩 Female: ${createdUsers.filter((u) => u.gender === "female").length}`
+    );
+    console.log(
+      `🏳️‍🌈 Other: ${createdUsers.filter((u) => u.gender === "other").length}`
+    );
+    console.log(
+      `💎 Premium Users: ${createdUsers.filter((u) => u.isPremium).length}`
+    );
+    console.log(
+      `🆓 Free Users: ${createdUsers.filter((u) => !u.isPremium).length}`
+    );
 
     console.log("\n🔑 Login Info for Testing:");
     console.log("📧 Email: Any email from the list above");
     console.log("🔒 Password: TechUser123! (same for all dummy users)");
-    
+
     console.log("\n🎯 Test Scenarios Available:");
     console.log("• User authentication and login");
     console.log("• Profile browsing and connections");
@@ -334,7 +520,6 @@ const seedUsers = async () => {
     console.log("• Skill-based filtering and matching");
     console.log("• Chat functionality between users");
     console.log("• Payment testing with premium users");
-
   } catch (error) {
     console.error("❌ Error seeding users:", error.message);
   } finally {
