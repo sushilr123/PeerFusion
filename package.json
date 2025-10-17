@@ -8,11 +8,6 @@
     "dev": "nodemon Backend/app.js",
     "dev:frontend": "cd Frontend && npm run dev",
     "dev:both": "concurrently \"npm run dev\" \"npm run dev:frontend\"",
-    "seed": "node scripts/seedDatabase.js",
-    "seed:users": "node scripts/seedDummyUsers.js",
-    "seed:interactions": "node scripts/seedInteractions.js",
-    "clean": "node scripts/cleanDatabase.js",
-    "verify": "node scripts/verifyData.js"
   },
   "keywords": [
     "nodejs",
@@ -36,6 +31,7 @@
     "validator": "^13.12.0"
   },
   "devDependencies": {
-    "axios": "^1.11.0"
+    "axios": "^1.11.0",
+    "concurrently": "^9.2.1"
   }
 }
