@@ -4,8 +4,10 @@
   "description": "PeerFusion - a networking platform for developers",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
+    "start": "node Backend/app.js",
+    "dev": "nodemon Backend/app.js",
+    "dev:frontend": "cd Frontend && npm run dev",
+    "dev:both": "concurrently \"npm run dev\" \"npm run dev:frontend\"",
     "seed": "node scripts/seedDatabase.js",
     "seed:users": "node scripts/seedDummyUsers.js",
     "seed:interactions": "node scripts/seedInteractions.js",
@@ -16,7 +18,7 @@
     "nodejs",
     "javascript"
   ],
-  "author": "Akshay Saini",
+  "author": "Sushil Raj",
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-ses": "^3.716.0",
