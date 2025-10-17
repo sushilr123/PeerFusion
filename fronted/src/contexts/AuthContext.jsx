@@ -1,7 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { AuthContext } from "./AuthContextDefinition";
 import { authService } from "../services/api";
-
-export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -17,6 +16,20 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
+      // Skip auth check if we're on public pages
+      const currentPath = window.location.pathname;
+      if (
+        currentPath === "/" ||
+        currentPath === "/login" ||
+        currentPath === "/signup"
+      ) {
+        if (isMounted) {
+          setLoading(false);
+          setAuthChecked(true);
+        }
+        return;
+      }
+
       try {
         console.log("[AUTH] Checking authentication...");
         const userData = await authService.getCurrentUser();
@@ -28,6 +41,7 @@ export const AuthProvider = ({ children }) => {
         if (isMounted) {
           console.log("[AUTH] No authenticated user:", error.message);
           setUser(null);
+          // Don't redirect here, let the interceptor handle it
         }
       } finally {
         if (isMounted) {
@@ -47,7 +61,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       setLoading(true);
+      console.log("[AUTH] Attempting login...");
       const userData = await authService.login(credentials);
+      console.log("[AUTH] Login successful:", userData);
       setUser(userData);
       setAuthChecked(true);
       setLoading(false);
@@ -55,14 +71,19 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("[AUTH] Login error:", error);
       setLoading(false);
-      throw error;
+      // Extract meaningful error message
+      const errorMessage =
+        error.response?.data || error.message || "Login failed";
+      throw new Error(errorMessage);
     }
   };
 
   const signup = async (userData) => {
     try {
       setLoading(true);
+      console.log("[AUTH] Attempting signup...");
       const newUser = await authService.signup(userData);
+      console.log("[AUTH] Signup successful:", newUser);
       setUser(newUser);
       setAuthChecked(true);
       setLoading(false);
@@ -70,7 +91,15 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("[AUTH] Signup error:", error);
       setLoading(false);
-      throw error;
+      // Extract meaningful error message from backend
+      let errorMessage = "Signup failed";
+      if (error.response?.data) {
+        // Backend sends "ERROR : message"
+        errorMessage = error.response.data.replace("ERROR : ", "");
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      throw new Error(errorMessage);
     }
   };
 

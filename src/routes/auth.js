@@ -7,14 +7,25 @@ const bcrypt = require("bcrypt");
 
 authRouter.post("/signup", async (req, res) => {
   try {
+    console.log("[SIGNUP REQUEST BODY]:", req.body);
+
     // Validation of data
     validateSignUpData(req);
 
     const { firstName, lastName, emailId, password } = req.body;
 
+    // Check if user already exists
+    const existingUser = await User.findOne({ emailId });
+    if (existingUser) {
+      console.log("[SIGNUP] User already exists:", emailId);
+      return res.status(400).json({
+        error: "User with this email already exists",
+      });
+    }
+
     // Encrypt the password
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
+    console.log("[SIGNUP] Password hashed successfully");
 
     //   Creating a new instance of the User model
     const user = new User({
@@ -25,48 +36,79 @@ authRouter.post("/signup", async (req, res) => {
     });
 
     const savedUser = await user.save();
+    console.log("[SIGNUP] User saved successfully:", savedUser.emailId);
+
     const token = await savedUser.getJWT();
+    console.log("[SIGNUP] JWT token generated");
 
     res.cookie("token", token, {
       expires: new Date(Date.now() + 8 * 3600000),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
     });
 
     // Remove password before sending
     const { password: userPassword, ...userProfile } = savedUser.toObject();
+    console.log("[SIGNUP] Sending success response");
     res.json({ message: "User Added successfully!", data: userProfile });
   } catch (err) {
-    res.status(400).send("ERROR : " + err.message);
+    console.error("[SIGNUP ERROR]:", err.message);
+    res.status(400).json({ error: err.message });
   }
 });
 
 authRouter.post("/login", async (req, res) => {
   try {
+    console.log("[LOGIN REQUEST BODY]:", req.body);
+
     const { emailId, password } = req.body;
+
+    if (!emailId || !password) {
+      console.log("[LOGIN] Missing email or password");
+      return res.status(400).json({
+        error: "Email and password are required",
+      });
+    }
 
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      throw new Error("Invalid credentials");
+      console.log("[LOGIN] User not found:", emailId);
+      return res.status(400).json({
+        error: "Invalid email or password",
+      });
     }
+
+    console.log("[LOGIN] User found, validating password");
     const isPasswordValid = await user.validatePassword(password);
 
     if (isPasswordValid) {
+      console.log("[LOGIN] Password valid, generating token");
       const token = await user.getJWT();
 
       res.cookie("token", token, {
         expires: new Date(Date.now() + 8 * 3600000),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
       });
 
       // Remove password before sending and standardize response format
       const { password: userPassword, ...userProfile } = user.toObject();
+      console.log("[LOGIN] Sending success response");
       res.json({
         message: "Login successful!",
         data: userProfile,
       });
     } else {
-      throw new Error("Invalid credentials");
+      console.log("[LOGIN] Invalid password for:", emailId);
+      res.status(400).json({
+        error: "Invalid email or password",
+      });
     }
   } catch (err) {
-    res.status(400).send("ERROR : " + err.message);
+    console.error("[LOGIN ERROR]:", err.message);
+    res.status(400).json({ error: err.message });
   }
 });
 

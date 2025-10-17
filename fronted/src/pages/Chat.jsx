@@ -16,6 +16,7 @@ const Chat = () => {
 
   // Fetch user connections on component mount
   useEffect(() => {
+    console.log("[CHAT] Component mounted, initializing...");
     fetchConnections();
 
     // Connect to socket
@@ -36,17 +37,23 @@ const Chat = () => {
   useEffect(() => {
     if (selectedUser) {
       socketService.onMessageReceived((messageData) => {
-        setMessages((prev) => [
-          ...prev,
-          {
-            senderId: {
-              firstName: messageData.firstName,
-              lastName: messageData.lastName,
+        // Only add message if it's from someone else (not from current user)
+        if (
+          messageData.firstName !== user.firstName ||
+          messageData.lastName !== user.lastName
+        ) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              senderId: {
+                firstName: messageData.firstName,
+                lastName: messageData.lastName,
+              },
+              text: messageData.text,
+              createdAt: new Date(),
             },
-            text: messageData.text,
-            createdAt: new Date(),
-          },
-        ]);
+          ]);
+        }
       });
 
       // Join chat room
@@ -60,19 +67,29 @@ const Chat = () => {
 
   const fetchConnections = async () => {
     try {
+      console.log("[CHAT] Fetching connections...");
       const response = await userService.getConnections();
+      console.log("[CHAT] Connections response:", response);
       setConnections(response.data || []);
     } catch (error) {
-      console.error("Error fetching connections:", error);
+      console.error("[CHAT] Error fetching connections:", error);
     }
   };
 
   const selectUser = async (targetUser) => {
     setSelectedUser(targetUser);
     setLoading(true);
+
+    // Clear current messages while loading
+    setMessages([]);
+
     try {
       const chatData = await chatService.getMessages(targetUser._id);
-      setMessages(chatData.messages || []);
+      console.log("Loaded chat data:", chatData);
+
+      // Ensure we're getting the messages array from the chat object
+      const messages = chatData.messages || [];
+      setMessages(messages);
     } catch (error) {
       console.error("Error fetching messages:", error);
       setMessages([]);
@@ -85,28 +102,41 @@ const Chat = () => {
     e.preventDefault();
     if (!newMessage.trim() || !selectedUser) return;
 
-    const messageData = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      userId: user._id,
-      targetUserId: selectedUser._id,
-      text: newMessage.trim(),
-    };
+    const messageText = newMessage.trim();
+    setNewMessage(""); // Clear input immediately
 
-    // Add message to local state immediately
-    setMessages((prev) => [
-      ...prev,
-      {
-        senderId: { firstName: user.firstName, lastName: user.lastName },
-        text: newMessage.trim(),
+    try {
+      // Send message via API to ensure it's saved to database
+      await chatService.sendMessage(selectedUser._id, messageText);
+
+      // Add message to local state with proper structure
+      const newMessageObj = {
+        senderId: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          _id: user._id,
+        },
+        text: messageText,
         createdAt: new Date(),
-      },
-    ]);
+      };
 
-    // Send via socket
-    socketService.sendMessage(messageData);
+      setMessages((prev) => [...prev, newMessageObj]);
 
-    setNewMessage("");
+      // Also send via socket for real-time updates to other user
+      const messageData = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userId: user._id,
+        targetUserId: selectedUser._id,
+        text: messageText,
+      };
+      socketService.sendMessage(messageData);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      // Restore message in input if API call fails
+      setNewMessage(messageText);
+      alert("Failed to send message. Please try again.");
+    }
   };
 
   const scrollToBottom = () => {

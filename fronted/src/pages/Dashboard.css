@@ -1,6 +1,7 @@
 .dashboard {
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-2xl) 0;
   min-height: calc(100vh - 70px);
+  background: var(--light-gray);
 }
 
 .dashboard-header {
@@ -9,15 +10,17 @@
 }
 
 .dashboard-header h1 {
-  font-size: var(--font-size-3xl);
-  font-weight: 700;
-  color: var(--gray-800);
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: var(--gray-900);
   margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.02em;
 }
 
 .dashboard-header p {
   font-size: var(--font-size-lg);
   color: var(--gray-600);
+  font-weight: 500;
 }
 
 .stats-grid {
@@ -30,39 +33,88 @@
 .stat-card {
   background: var(--white);
   border-radius: var(--border-radius-lg);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
   box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  transition: var(--transition-normal);
+  gap: var(--spacing-lg);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--gray-200);
 }
 
 .stat-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: var(--gray-300);
+}
+
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl);
+  text-align: center;
+  min-height: 300px;
+}
+
+.loading-state .spinner {
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-lg);
+  color: var(--primary-color);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.error-state p {
+  color: var(--error-color);
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-lg);
+}
+
+.no-activity {
+  text-align: center;
+  color: var(--gray-500);
+  font-style: italic;
+  padding: var(--spacing-xl);
+}
+
+.activity-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .stat-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--white);
+  flex-shrink: 0;
 }
 
 .stat-content h3 {
   font-size: var(--font-size-2xl);
-  font-weight: 700;
-  color: var(--gray-800);
+  font-weight: 800;
+  color: var(--gray-900);
   margin-bottom: var(--spacing-xs);
+  line-height: 1.2;
 }
 
 .stat-content p {
   color: var(--gray-600);
   font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .dashboard-content {
@@ -74,48 +126,53 @@
 .quick-actions h2,
 .recent-activity h2 {
   font-size: var(--font-size-xl);
-  font-weight: 600;
-  color: var(--gray-800);
+  font-weight: 700;
+  color: var(--gray-900);
   margin-bottom: var(--spacing-lg);
+  letter-spacing: -0.01em;
 }
 
 .action-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--spacing-lg);
 }
 
 .action-card {
   background: var(--white);
   border-radius: var(--border-radius-lg);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-2xl);
   box-shadow: var(--shadow-sm);
   text-align: center;
-  transition: var(--transition-normal);
+  transition: all var(--transition-normal);
+  border: 1px solid var(--gray-200);
 }
 
 .action-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: var(--primary-color);
 }
 
 .action-card svg {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   color: var(--primary-color);
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .action-card h3 {
   font-size: var(--font-size-lg);
-  font-weight: 600;
-  color: var(--gray-800);
+  font-weight: 700;
+  color: var(--gray-900);
   margin-bottom: var(--spacing-sm);
 }
 
 .action-card p {
   color: var(--gray-600);
   margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+  font-size: var(--font-size-sm);
 }
 
 .activity-list {

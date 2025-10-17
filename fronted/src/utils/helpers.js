@@ -168,10 +168,19 @@ export const POPULAR_SKILLS = [
 
 // Error handling
 export const getErrorMessage = (error) => {
+  // Handle different error response formats
+  if (error.response?.data?.error) {
+    return error.response.data.error;
+  }
   if (error.response?.data?.message) {
     return error.response.data.message;
   }
   if (error.response?.data) {
+    // If it's a string response (like from backend)
+    if (typeof error.response.data === "string") {
+      // Remove "ERROR : " prefix if present
+      return error.response.data.replace(/^ERROR\s*:\s*/, "");
+    }
     return error.response.data;
   }
   if (error.message) {

@@ -15,6 +15,13 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Log the error for debugging
+    console.log(
+      "[API] Error response:",
+      error.response?.status,
+      error.response?.data
+    );
+
     if (error.response?.status === 401) {
       // Only redirect if not already on login/signup pages
       const currentPath = window.location.pathname;
@@ -24,6 +31,8 @@ api.interceptors.response.use(
         currentPath !== "/"
       ) {
         console.log("[API] Unauthorized access, redirecting to login");
+        // Clear any stored user data
+        localStorage.removeItem("user");
         window.location.href = "/login";
       }
     }
@@ -34,13 +43,29 @@ api.interceptors.response.use(
 // Auth Service
 export const authService = {
   login: async (credentials) => {
-    const response = await api.post("/login", credentials);
-    return response.data.data; // Now login also returns { message, data: user }
+    try {
+      const response = await api.post("/login", credentials);
+      return response.data.data; // Backend returns { message, data: user }
+    } catch (error) {
+      // Handle JSON error responses
+      if (error.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      }
+      throw error;
+    }
   },
 
   signup: async (userData) => {
-    const response = await api.post("/signup", userData);
-    return response.data.data; // Backend returns { message, data: user }
+    try {
+      const response = await api.post("/signup", userData);
+      return response.data.data; // Backend returns { message, data: user }
+    } catch (error) {
+      // Handle JSON error responses
+      if (error.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      }
+      throw error;
+    }
   },
 
   logout: async () => {
@@ -49,8 +74,16 @@ export const authService = {
   },
 
   getCurrentUser: async () => {
-    const response = await api.get("/profile/view");
-    return response.data.data; // Now profile view returns { message, data: user }
+    try {
+      const response = await api.get("/profile/view");
+      return response.data.data; // Backend returns { message, data: user }
+    } catch (error) {
+      // Handle JSON error responses
+      if (error.response?.data?.error) {
+        throw new Error(error.response.data.error);
+      }
+      throw error;
+    }
   },
 };
 
@@ -81,6 +114,16 @@ export const userService = {
 
   getReceivedRequests: async () => {
     const response = await api.get("/user/requests/received");
+    return response.data;
+  },
+
+  getDashboardStats: async () => {
+    const response = await api.get("/user/dashboard/stats");
+    return response.data;
+  },
+
+  getRecentActivity: async () => {
+    const response = await api.get("/user/dashboard/activity");
     return response.data;
   },
 };

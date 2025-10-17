@@ -272,17 +272,6 @@ const Feed = () => {
             </div>
           )}
         </div>
-
-        <div className="feed-instructions">
-          <div className="instruction">
-            <X size={16} className="pass-color" />
-            <span>Pass</span>
-          </div>
-          <div className="instruction">
-            <Heart size={16} className="like-color" />
-            <span>Like</span>
-          </div>
-        </div>
       </div>
 
       <div className="feed-footer">
