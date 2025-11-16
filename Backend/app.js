@@ -6,10 +6,7 @@ const cors = require("cors");
 const http = require("http");
 
 require("dotenv").config();
-console.log("[STARTUP] Environment variables loaded");
-
 require("./utils/cronjob");
-console.log("[STARTUP] Cron jobs initialized");
 
 app.use(
   cors({
@@ -21,16 +18,9 @@ app.use(
     credentials: true,
   })
 );
-console.log("[STARTUP] CORS middleware configured for origins:", [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "http://localhost:5176",
-]);
+
 app.use(express.json());
-console.log("[STARTUP] JSON parser middleware configured");
 app.use(cookieParser());
-console.log("[STARTUP] Cookie parser middleware configured");
-// Log incoming requests for easier debugging
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   if (req.body && Object.keys(req.body).length > 0) {
@@ -40,32 +30,19 @@ app.use((req, res, next) => {
 });
 
 const authRouter = require("./routes/auth");
-console.log("[STARTUP] Auth router loaded");
 const profileRouter = require("./routes/profile");
-console.log("[STARTUP] Profile router loaded");
 const requestRouter = require("./routes/request");
-console.log("[STARTUP] Request router loaded");
 const userRouter = require("./routes/user");
-console.log("[STARTUP] User router loaded");
 const paymentRouter = require("./routes/payment");
-console.log("[STARTUP] Payment router loaded");
 const initializeSocket = require("./utils/socket");
-console.log("[STARTUP] Socket utility loaded");
 const chatRouter = require("./routes/chat");
-console.log("[STARTUP] Chat router loaded");
 
 app.use("/", authRouter);
-console.log("[STARTUP] Auth routes mounted on /");
 app.use("/", profileRouter);
-console.log("[STARTUP] Profile routes mounted on /");
 app.use("/", requestRouter);
-console.log("[STARTUP] Request routes mounted on /");
 app.use("/", userRouter);
-console.log("[STARTUP] User routes mounted on /");
 app.use("/", paymentRouter);
-console.log("[STARTUP] Payment routes mounted on /");
 app.use("/", chatRouter);
-console.log("[STARTUP] Chat routes mounted on /");
 
 // Centralized error handler
 app.use((err, req, res, next) => {
@@ -79,9 +56,7 @@ app.use((err, req, res, next) => {
 });
 
 const server = http.createServer(app);
-console.log("[STARTUP] HTTP server created");
 initializeSocket(server);
-console.log("[STARTUP] Socket.io initialized");
 
 connectDB()
   .then(() => {
@@ -96,6 +71,8 @@ connectDB()
         `[SERVER] Frontend can connect from: http://localhost:5173, http://localhost:5174, or http://localhost:5176`
       );
     });
+
+    
     server.on("error", (err) => {
       console.error(`[SERVER ERROR] Server error occurred:`, err);
       if (err.code === "EADDRINUSE") {

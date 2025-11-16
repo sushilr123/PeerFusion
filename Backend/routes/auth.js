@@ -7,11 +7,7 @@ const bcrypt = require("bcrypt");
 
 authRouter.post("/signup", async (req, res) => {
   try {
-    console.log("[SIGNUP REQUEST BODY]:", req.body);
-
-    // Validation of data
     validateSignUpData(req);
-
     const { firstName, lastName, emailId, password } = req.body;
 
     // Check if user already exists
@@ -25,8 +21,6 @@ authRouter.post("/signup", async (req, res) => {
 
     // Encrypt the password
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log("[SIGNUP] Password hashed successfully");
-
     //   Creating a new instance of the User model
     const user = new User({
       firstName,
@@ -36,10 +30,7 @@ authRouter.post("/signup", async (req, res) => {
     });
 
     const savedUser = await user.save();
-    console.log("[SIGNUP] User saved successfully:", savedUser.emailId);
-
     const token = await savedUser.getJWT();
-    console.log("[SIGNUP] JWT token generated");
 
     res.cookie("token", token, {
       expires: new Date(Date.now() + 8 * 3600000),
@@ -48,15 +39,14 @@ authRouter.post("/signup", async (req, res) => {
       sameSite: "lax",
     });
 
-    // Remove password before sending
     const { password: userPassword, ...userProfile } = savedUser.toObject();
-    console.log("[SIGNUP] Sending success response");
     res.json({ message: "User Added successfully!", data: userProfile });
   } catch (err) {
     console.error("[SIGNUP ERROR]:", err.message);
     res.status(400).json({ error: err.message });
   }
 });
+
 
 authRouter.post("/login", async (req, res) => {
   try {

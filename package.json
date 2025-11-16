@@ -7,7 +7,7 @@
     "start": "node Backend/app.js",
     "dev": "nodemon Backend/app.js",
     "dev:frontend": "cd Frontend && npm run dev",
-    "dev:both": "concurrently \"npm run dev\" \"npm run dev:frontend\"",
+    "dev:both": "concurrently \"npm run dev\" \"npm run dev:frontend\""
   },
   "keywords": [
     "nodejs",
